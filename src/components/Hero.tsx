@@ -60,7 +60,6 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.5 }}
-            className="bg-black/20 md:bg-transparent p-6 md:p-0 rounded-3xl backdrop-blur-[2px] md:backdrop-blur-none border border-white/5 md:border-transparent"
           >
             <div className="relative z-10 pointer-events-none">
               <p className="text-violet-400 font-mono mb-4 tracking-widest uppercase text-sm drop-shadow-[0_0_8px_rgba(124,58,237,0.8)]">
@@ -133,7 +132,7 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Lanyard positioned to cover full screen width to prevent clipping on the left */}
-      <div className="absolute top-0 right-0 w-full h-full pointer-events-none z-20">
+      <div className="hidden md:block absolute top-0 right-0 w-full h-full pointer-events-none z-20">
         <Suspense fallback={null}>
           <div className="pointer-events-auto w-full h-full">
             <Lanyard
