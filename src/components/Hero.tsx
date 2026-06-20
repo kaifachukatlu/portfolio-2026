@@ -55,11 +55,12 @@ const Hero: React.FC = () => {
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 md:grid-cols-2 gap-12">
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center relative z-40 pointer-events-auto mt-10 md:mt-0">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.5 }}
+            className="bg-black/20 md:bg-transparent p-6 md:p-0 rounded-3xl backdrop-blur-[2px] md:backdrop-blur-none border border-white/5 md:border-transparent"
           >
             <div className="relative z-10 pointer-events-none">
               <p className="text-violet-400 font-mono mb-4 tracking-widest uppercase text-sm drop-shadow-[0_0_8px_rgba(124,58,237,0.8)]">
