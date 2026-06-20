@@ -11,9 +11,9 @@ const Strands = StrandsRaw as any;
 // 2. Create a service (Gmail) → copy Service ID below
 // 3. Create a template → copy Template ID below
 // 4. Copy your Public Key from Account → API Keys
-const EMAILJS_SERVICE_ID  = 'service_xrwrgx9';
-const EMAILJS_TEMPLATE_ID = 'template_tuatlnh';
-const EMAILJS_PUBLIC_KEY  = 'q_QnJZBf9m3KEediU';
+const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID || '';
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '';
+const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '';
 // ───────────────────────────────────────────────────────────────────────────────
 
 type Status = 'idle' | 'sending' | 'success' | 'error';

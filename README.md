@@ -4,8 +4,6 @@ A hyper-realistic, 3D interactive portfolio built for the future. Designed speci
 
 This portfolio features cutting-edge glassmorphism, physics-based 3D interactions (like a draggable realistic conference lanyard), smooth framer-motion animations, and a premium "Apple Vision Pro / Nothing OS" dark aesthetic.
 
-![Portfolio Preview](./public/kaif-card.png)
-
 ## 🌟 Key Features
 
 - **Hyper-Realistic 3D Lanyard:** A fully physics-driven, draggable 3D ID card using `@react-three/fiber`, `@react-three/rapier`, and a premium metallic PBR carabiner.
