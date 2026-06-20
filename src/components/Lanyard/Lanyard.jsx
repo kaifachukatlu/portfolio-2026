@@ -2,7 +2,7 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
-import { useGLTF, useTexture, Environment, Lightformer, Html } from '@react-three/drei';
+import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 
@@ -246,107 +246,31 @@ function Band({
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
-            onPointerUp={(e) => {
-              e.stopPropagation();
-              e.target.releasePointerCapture(e.pointerId);
-              drag(false);
-            }}
-            onPointerDown={(e) => {
-              e.stopPropagation();
-              e.target.setPointerCapture(e.pointerId);
-              [card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp());
-              drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
-            }}
+            onPointerUp={e => (e.target.releasePointerCapture(e.pointerId), drag(false))}
+            onPointerDown={e => (
+              e.target.setPointerCapture(e.pointerId),
+              drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())))
+            )}
           >
-            {/* Invisible original mesh for physics body shape */}
             <mesh geometry={nodes.card.geometry}>
-              <meshBasicMaterial transparent={true} opacity={0} depthWrite={false} />
+              <meshPhysicalMaterial
+                map={cardMap}
+                map-anisotropy={16}
+                clearcoat={isMobile ? 0 : 1}
+                clearcoatRoughness={0.15}
+                roughness={0.9}
+                metalness={0.8}
+              />
             </mesh>
-            
-            {/* Premium Silver/Chrome 3D Carabiner */}
-            <mesh geometry={nodes.clip.geometry}>
-              <meshStandardMaterial metalness={1} roughness={0.15} color="white" envMapIntensity={3} />
-            </mesh>
-            <mesh geometry={nodes.clamp.geometry}>
-              <meshStandardMaterial metalness={1} roughness={0.2} color="white" envMapIntensity={3} />
-            </mesh>
-
-            {/* Glassmorphic HTML Overlay */}
-            <Html transform position={[0, 0.533, -0.01]} distanceFactor={1.14} occlude="blending" zIndexRange={[100, 0]} className="pointer-events-none">
-              <div className="w-[320px] h-[480px] bg-gradient-to-b from-white/10 to-black/80 backdrop-blur-2xl rounded-[2rem] border border-white/20 flex flex-col px-4 py-5 overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative font-sans">
-                {/* Subtle light reflections */}
-                <div className="absolute top-0 left-0 w-full h-[100px] bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
-                
-                {/* Pill Hole for the clip */}
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 w-10 h-1.5 bg-black/60 rounded-full border border-black shadow-inner"></div>
-
-                {/* Top header */}
-                <div className="flex justify-between items-start w-full relative z-10 mt-8 mb-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full border border-white/40 flex items-center justify-center bg-white/5">
-                      <span className="text-[10px] font-bold text-white tracking-wider">VT</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-[11px] font-bold text-white/90 tracking-widest leading-none mb-1">VEL TECH R&D</span>
-                      <span className="text-[6px] text-gray-400 font-medium tracking-wider">INSTITUTE OF SCI & TECH</span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end pt-1">
-                    <span className="text-[7px] text-gray-500 font-bold tracking-widest leading-none mb-1 uppercase">Identity Card</span>
-                    <span className="text-[9px] font-bold text-white/80 tracking-widest">2023 — 2027</span>
-                  </div>
-                </div>
-
-                {/* Box Photo */}
-                <div className="w-full flex justify-center relative z-10 mb-1 mt-0">
-                  <div className="w-44 h-52 rounded-2xl overflow-hidden border border-white/20 shadow-[0_0_30px_rgba(0,0,0,0.6)] bg-gradient-to-br from-indigo-500/30 to-emerald-400/30 relative">
-                    {frontImage && frontImage !== BLANK_PIXEL ? (
-                      <img src={frontImage} className="w-full h-full object-cover" alt="Profile" />
-                    ) : (
-                      <div className="w-full h-full bg-white/5 flex items-center justify-center">
-                        <span className="text-white/40 text-xs tracking-widest">PREVIEW</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Name & Titles */}
-                <div className="flex flex-col z-10 -mt-2">
-                  <h1 className="text-3xl font-black text-white leading-[1] tracking-tight">ACHUKATULU<br/>KAIF</h1>
-                  <p className="text-[10px] font-bold text-emerald-400 mt-2 tracking-wide uppercase">
-                    AI Engineer • IoT Builder • Patent Holder
-                  </p>
-                </div>
-
-                {/* Divider */}
-                <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mt-auto mb-3 z-10"></div>
-
-                {/* Stats Footer */}
-                <div className="flex justify-between w-full px-6 z-10 pb-2">
-                  <div className="flex flex-col items-center">
-                    <span className="text-xl font-bold text-white leading-none">7.7</span>
-                    <span className="text-[8px] text-gray-500 font-semibold tracking-widest mt-1 uppercase">CGPA</span>
-                  </div>
-                  <div className="w-[1px] h-6 bg-white/10"></div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-xl font-bold text-white leading-none">01</span>
-                    <span className="text-[8px] text-gray-500 font-semibold tracking-widest mt-1 uppercase">Patent</span>
-                  </div>
-                  <div className="w-[1px] h-6 bg-white/10"></div>
-                  <div className="flex flex-col items-center">
-                    <span className="text-xl font-bold text-white leading-none">17+</span>
-                    <span className="text-[8px] text-gray-500 font-semibold tracking-widest mt-1 uppercase">Certs</span>
-                  </div>
-                </div>
-              </div>
-            </Html>
+            <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
+            <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
           </group>
         </RigidBody>
       </group>
       <mesh ref={band}>
         <meshLineGeometry />
         <meshLineMaterial
-          color="#111111"
+          color="#000000"
           depthTest={false}
           resolution={isMobile ? [1000, 2000] : [1000, 1000]}
           lineWidth={1}
