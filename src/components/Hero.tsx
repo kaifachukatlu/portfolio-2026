@@ -120,9 +120,9 @@ const Hero: React.FC = () => {
               <a href="https://linkedin.com/in/achukatulu-kaif-33146b35b" target="_blank" rel="noopener noreferrer" className="interactive text-indigo-300/60 hover:text-[#0a66c2] transition-colors p-2 hover:bg-white/5 rounded-full">
                 <FiLinkedin size={24} />
               </a>
-              <a href="mailto:kaifachukatlu@gmail.com" className="interactive text-indigo-300/60 hover:text-red-400 transition-colors p-2 hover:bg-white/5 rounded-full">
+              <Link to="contact" smooth={true} className="interactive cursor-pointer text-indigo-300/60 hover:text-red-400 transition-colors p-2 hover:bg-white/5 rounded-full">
                 <FiMail size={24} />
-              </a>
+              </Link>
               <a href="tel:9441205786" className="interactive text-indigo-300/60 hover:text-emerald-400 transition-colors p-2 hover:bg-white/5 rounded-full" title="Call 9441205786">
                 <FiPhone size={24} />
               </a>
