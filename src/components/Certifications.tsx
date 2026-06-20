@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import ScrollFloat from './ScrollFloat';
-import GradualBlur from './GradualBlur';
+
 
 const row1 = [
   "CCNA: Introduction to Networks (Cisco)",
@@ -68,12 +68,14 @@ const Certifications: React.FC = () => {
         </p>
       </div>
 
-      {/* Marquee Container */}
-      <div className="relative w-full overflow-hidden flex flex-col gap-2">
-        {/* Premium Fading edges using GradualBlur */}
-        <GradualBlur preset="left" height="6rem" strength={3} opacity={1} className="z-10 pointer-events-none" />
-        <GradualBlur preset="right" height="6rem" strength={3} opacity={1} className="z-10 pointer-events-none" />
-        
+      {/* Marquee Container with native CSS fading edges */}
+      <div 
+        className="relative w-full overflow-hidden flex flex-col gap-2"
+        style={{
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+          maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+        }}
+      >
         <MarqueeRow items={row1} direction="left" speed={35} />
         <MarqueeRow items={row2} direction="right" speed={40} />
       </div>
